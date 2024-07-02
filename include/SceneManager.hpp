@@ -2,9 +2,7 @@
 
 #include "raylib.h"
 
-class StartScene;
-class PlayScene;
-class EndScene;
+class Scene;
 
 enum ScreenState {
     START,
@@ -23,10 +21,10 @@ public:
 private:
     void update();
     void draw();
+    void loadScene(ScreenState state);
+    void unloadScene();
 
     ScreenState mCurrentScene;
-    StartScene* mStartScene;
-    PlayScene* mPlayScene;
-    EndScene* mEndScene;
-
+    Scene* mCurrentScenePtr;
 };
+

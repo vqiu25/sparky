@@ -4,18 +4,13 @@
 #include "scenes/EndScene.hpp"
 
 SceneManager::SceneManager()
-    : mCurrentScene{ScreenState::START}
-    , mStartScene{new StartScene{this}}
-    , mPlayScene{new PlayScene{this}}
-    , mEndScene{new EndScene{this}} {}
+        : mCurrentScene{ScreenState::START}
+        , mCurrentScenePtr{nullptr} {
+    loadScene(this->mCurrentScene);
+}
 
 SceneManager::~SceneManager() {
-    delete mStartScene;
-    delete mPlayScene;
-    delete mEndScene;
-    mStartScene = nullptr;
-    mPlayScene = nullptr;
-    mEndScene = nullptr;
+    unloadScene();
 }
 
 void SceneManager::run() {
@@ -29,33 +24,40 @@ void SceneManager::run() {
 }
 
 void SceneManager::update() {
-    switch (mCurrentScene) {
-        case START:
-            mStartScene->update();
-            break;
-        case PLAY:
-            mPlayScene->update();
-            break;
-        case END:
-            mEndScene->update();
-            break;
+    if (this->mCurrentScenePtr) {
+        this->mCurrentScenePtr->update();
     }
 }
 
 void SceneManager::draw() {
-    switch (mCurrentScene) {
-        case START:
-            mStartScene->draw();
-            break;
-        case PLAY:
-            mPlayScene->draw();
-            break;
-        case END:
-            mEndScene->draw();
-            break;
+    if (this->mCurrentScenePtr) {
+        this->mCurrentScenePtr->draw();
     }
 }
 
 void SceneManager::SetScreenState(ScreenState state) {
-    mCurrentScene = state;
+    if (this->mCurrentScene != state) {
+        unloadScene();
+        this->mCurrentScene = state;
+        loadScene(state);
+    }
+}
+
+void SceneManager::loadScene(ScreenState state) {
+    switch (state) {
+        case ScreenState::START:
+            this->mCurrentScenePtr = new StartScene{this};
+            break;
+        case ScreenState::PLAY:
+            this->mCurrentScenePtr = new PlayScene{this};
+            break;
+        case ScreenState::END:
+            this->mCurrentScenePtr = new EndScene{this};
+            break;
+    }
+}
+
+void SceneManager::unloadScene() {
+    delete this->mCurrentScenePtr;
+    this->mCurrentScenePtr = nullptr;
 }
