@@ -60,9 +60,14 @@ void UFO::shoot(Vector2 playerPosition) {
     float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
     direction = {direction.x / length, direction.y / length};
 
+    // Reduce the speed multiplier for the laser
+    float laserSpeed = 0.3f;  // Lower this value to slow down the laser
+    Vector2 laserVelocity = {direction.x * laserSpeed, direction.y * laserSpeed};
+
     Vector2 laserPos = {this->mPosition.x + direction.x * (this->mTexture.width / 2), this->mPosition.y + direction.y * (this->mTexture.height / 2)};
-    this->mLasers.push_back(Laser{laserPos, direction, this->mLaserTexture});
+    this->mLasers.push_back(Laser{laserPos, laserVelocity, this->mLaserTexture});
 }
+
 
 Vector2 UFO::getPosition() const {
     return this->mPosition;
