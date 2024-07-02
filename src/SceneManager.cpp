@@ -17,7 +17,7 @@ void SceneManager::run() {
     while (!WindowShouldClose()) {
         update();
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground((Color) {18, 16, 18});
         draw();
         EndDrawing();
     }

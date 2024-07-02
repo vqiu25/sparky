@@ -1,8 +1,10 @@
 #include "scenes/StartScene.hpp"
 #include "SceneManager.hpp"
+#include "Constants.hpp"
 
 StartScene::StartScene(SceneManager* sceneManager)
-    : Scene{sceneManager} {}
+    : Scene{sceneManager}
+    , titleTexture{LoadTexture(Constants::TITLE_LOGO_PATH.c_str())} {}
 
 void StartScene::update() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -11,6 +13,6 @@ void StartScene::update() {
 }
 
 void StartScene::draw() {
-    DrawText("Start Screen", 350, 280, 20, DARKGRAY);
-    DrawText("Click to Play", 350, 310, 20, DARKGRAY);
+    DrawTexture(titleTexture, (Constants::SCREEN_WIDTH - this->titleTexture.width) / 2, 120, WHITE);
+    DrawText("[Press Anywhere to Start]", (Constants::SCREEN_WIDTH - MeasureText("[Press Anywhere to Start]", 25)) / 2, 340, 25, DARKGRAY);
 }

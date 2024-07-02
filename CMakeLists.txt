@@ -18,6 +18,9 @@ add_executable(sparky
         src/scenes/StartScene.cpp
         src/scenes/PlayScene.cpp
         src/scenes/EndScene.cpp)
+# Assets
+set(ASSET_PATH "${CMAKE_SOURCE_DIR}/assets")
+add_definitions(-DASSET_PATH="${ASSET_PATH}/")
 
 # Link with raylib
 target_link_libraries(sparky raylib)

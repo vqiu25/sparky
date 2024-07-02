@@ -1,14 +1,12 @@
 #include "SceneManager.hpp"
+#include "Constants.hpp"
 
 int main() {
-    const int screenWidth = 800;
-    const int screenHeight = 600;
-
-    InitWindow(screenWidth, screenHeight, "Sparky");
+    InitWindow(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, "Sparky");
     SetTargetFPS(60);
 
-    SceneManager gameManager;
-    gameManager.run();
+    SceneManager sceneManager;
+    sceneManager.run();
 
     CloseWindow();
     return 0;

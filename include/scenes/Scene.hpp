@@ -1,5 +1,7 @@
 #pragma once
 
+#include "raylib.h"
+
 class SceneManager;
 
 class Scene {
