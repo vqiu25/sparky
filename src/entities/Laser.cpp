@@ -16,6 +16,7 @@ void Laser::update() {
     }
 }
 
+
 void Laser::draw() {
     DrawTexturePro(this->mTexture, {0, 0, (float)this->mTexture.width, (float)this->mTexture.height},
                    {this->mPosition.x, this->mPosition.y, (float)this->mTexture.width, (float)this->mTexture.height},

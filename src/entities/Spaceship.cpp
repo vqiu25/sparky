@@ -79,6 +79,7 @@ void Spaceship::takeDamage(int damage) {
     if (this->mHealth < 0) this->mHealth = 0;
 }
 
+
 Vector2 Spaceship::getPosition() const {
     return this->mPosition;
 }
@@ -99,6 +100,6 @@ Texture2D Spaceship::getLaserTexture() const {
     return this->mLaserTexture;
 }
 
-std::vector<Laser> Spaceship::getLasers() const {
+std::vector<Laser>& Spaceship::getLasers() {
     return this->mLasers;
 }

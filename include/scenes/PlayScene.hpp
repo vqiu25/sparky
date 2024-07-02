@@ -15,6 +15,7 @@ public:
     void draw() override;
     void spawnUFO();
     void spawnUFOs(int count);
+    void cleanupLasers();
 
 private:
     Spaceship mPlayer;

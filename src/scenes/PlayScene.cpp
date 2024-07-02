@@ -69,6 +69,22 @@ void PlayScene::update() {
         }
     }
 
+    // Remove inactive lasers from the spaceship
+    std::vector<Laser>& playerLasers = mPlayer.getLasers(); // Assuming getLasers() returns a reference
+    playerLasers.erase(std::remove_if(playerLasers.begin(), playerLasers.end(), [](const Laser& laser) {
+        return !laser.isActive(); // Remove the laser if it is not active
+    }), playerLasers.end());
+
+    // Update each UFO and remove inactive lasers within each UFO
+    for (auto& ufo : mUfos) {
+        ufo.update(mPlayer.getPosition(), mPlayer.getVelocity());
+        // Remove inactive lasers from the UFO
+        std::vector<Laser>& lasers = ufo.getLasers(); // Assuming getLasers() returns a reference
+        lasers.erase(std::remove_if(lasers.begin(), lasers.end(), [](const Laser& laser) {
+            return !laser.isActive(); // Remove the laser if it is not active
+        }), lasers.end());
+    }
+
     // Remove dead UFOs
     mUfos.erase(std::remove_if(mUfos.begin(), mUfos.end(), [](UFO& u) { return u.getHealth() <= 0; }), mUfos.end());
 
@@ -137,3 +153,4 @@ void PlayScene::spawnUFOs(int count) {
 void PlayScene::spawnUFO() {
     spawnUFOs(1);
 }
+
