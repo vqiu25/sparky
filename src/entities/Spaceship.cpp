@@ -40,32 +40,35 @@ void Spaceship::draw() {
 }
 
 void Spaceship::shoot() {
-    Vector2 direction = {cosf(this->mRotation * DEG2RAD), sinf(this->mRotation * DEG2RAD)};
+    Vector2 direction = {cosf((this->mRotation - 90.0f) * DEG2RAD), sinf((this->mRotation - 90.0f) * DEG2RAD)};
     Vector2 laserPos = {mPosition.x + direction.x * (mTexture.width / 2), mPosition.y + direction.y * (mTexture.height / 2)};
     mLasers.push_back(Laser(laserPos, direction, mLaserTexture));
 }
 
 void Spaceship::rotateToMouse(Vector2 mousePosition) {
     Vector2 direction = {mousePosition.x - this->mPosition.x, mousePosition.y - this->mPosition.y};
-    this->mRotation = atan2f(direction.y, direction.x) * RAD2DEG;
+    this->mRotation = atan2f(direction.y, direction.x) * RAD2DEG + 90.0f;
 }
 
 void Spaceship::move() {
     Vector2 direction = {0, 0};
 
     if (IsKeyDown(KEY_W)) {
-        direction = {cosf(this->mRotation * DEG2RAD) * 2.0f, sinf(this->mRotation * DEG2RAD) * 2.0f};
-    } else if (IsKeyDown(KEY_S)) {
-        direction = {cosf(this->mRotation * DEG2RAD) * -2.0f, sinf(this->mRotation * DEG2RAD) * -2.0f};
+        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * 2.0f;
+        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * 2.0f;
+    }
+    if (IsKeyDown(KEY_S)) {
+        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * -2.0f;
+        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * -2.0f;
     }
 
     if (IsKeyDown(KEY_A)) {
-        direction.x += cosf((this->mRotation - 90) * DEG2RAD) * 2.0f;
-        direction.y += sinf((this->mRotation - 90) * DEG2RAD) * 2.0f;
+        direction.x += cosf((this->mRotation + 180.0f) * DEG2RAD) * 2.0f;
+        direction.y += sinf((this->mRotation + 180.0f) * DEG2RAD) * 2.0f;
     }
     if (IsKeyDown(KEY_D)) {
-        direction.x += cosf((this->mRotation + 90) * DEG2RAD) * 2.0f;
-        direction.y += sinf((this->mRotation + 90) * DEG2RAD) * 2.0f;
+        direction.x += cosf(this->mRotation * DEG2RAD) * 2.0f;
+        direction.y += sinf(this->mRotation * DEG2RAD) * 2.0f;
     }
 
     this->mVelocity = direction;

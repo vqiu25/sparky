@@ -8,6 +8,7 @@ private:
     Vector2 mVelocity;
     bool mActive;
     Texture2D mTexture;
+    float mRotation;
 
 public:
     Laser(Vector2 position, Vector2 velocity, Texture2D texture);
