@@ -8,28 +8,36 @@ UFO::UFO(Vector2 pos)
         , mHealth{50}
         , mTexture{LoadTexture(Constants::UFO_RED_PATH.c_str())}
         , mLaserTexture{LoadTexture(Constants::LASER_RED_PATH.c_str())}
-        , mSpeed{1.0f} {}
+        , mSpeed{5.0f}
+        , mMinDistance{200.0f}{}
 
 
-void UFO::update(Vector2 playerPosition) {
-    // Calculate direction towards the player
+void UFO::update(Vector2 playerPosition, Vector2 playerVelocity) {
     Vector2 direction = {playerPosition.x - this->mPosition.x, playerPosition.y - this->mPosition.y};
     float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
-    direction = {direction.x / length, direction.y / length};
 
-    // Update velocity based on direction
-    this->mVelocity = {direction.x * this->mSpeed, direction.y * this->mSpeed};
+    // Decrease speed as it nears the player to give the player a chance to escape
+    float speedDamping = (length < mMinDistance) ? 0.5f : 1.0f;
 
-    // Update position based on velocity
+    // Correcting the relative velocity to pursue the player correctly
+    Vector2 relativeVelocity = {playerVelocity.x * 0.5f, playerVelocity.y * 0.5f};
+
+    if (length > mMinDistance) {
+        direction = {direction.x / length, direction.y / length};
+        this->mVelocity = {direction.x * this->mSpeed * speedDamping + relativeVelocity.x,
+                           direction.y * this->mSpeed * speedDamping + relativeVelocity.y};
+    } else {
+        this->mVelocity = relativeVelocity;
+    }
+
     this->mPosition.x += this->mVelocity.x;
     this->mPosition.y += this->mVelocity.y;
-
-    // Update rotation based on direction
     this->mRotation = atan2f(direction.y, direction.x) * RAD2DEG;
+
+    // Update existing lasers and remove inactive ones
     for (auto& laser : this->mLasers) {
         laser.update();
     }
-
     this->mLasers.erase(std::remove_if(this->mLasers.begin(), this->mLasers.end(), [](Laser& l) { return !l.isActive(); }), this->mLasers.end());
 }
 

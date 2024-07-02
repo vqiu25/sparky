@@ -54,21 +54,21 @@ void Spaceship::move() {
     Vector2 direction = {0, 0};
 
     if (IsKeyDown(KEY_W)) {
-        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * 4.0f;
-        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * 4.0f;
+        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * 12.0f;
+        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * 12.0f;
     }
     if (IsKeyDown(KEY_S)) {
-        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * -4.0f;
-        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * -4.0f;
+        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * -12.0f;
+        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * -12.0f;
     }
 
     if (IsKeyDown(KEY_D)) {
-        direction.x += cosf((this->mRotation + 180.0f) * DEG2RAD) * 4.0f;
-        direction.y += sinf((this->mRotation + 180.0f) * DEG2RAD) * 4.0f;
+        direction.x += cosf((this->mRotation + 180.0f) * DEG2RAD) * 12.0f;
+        direction.y += sinf((this->mRotation + 180.0f) * DEG2RAD) * 12.0f;
     }
     if (IsKeyDown(KEY_A)) {
-        direction.x += cosf(this->mRotation * DEG2RAD) * 4.0f;
-        direction.y += sinf(this->mRotation * DEG2RAD) * 4.0f;
+        direction.x += cosf(this->mRotation * DEG2RAD) * 12.0f;
+        direction.y += sinf(this->mRotation * DEG2RAD) * 12.0f;
     }
 
     this->mVelocity = direction;

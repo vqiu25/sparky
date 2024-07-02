@@ -8,9 +8,7 @@ PlayScene::PlayScene(SceneManager* sceneManager)
         , mBackgroundTexture{LoadTexture(Constants::BACKGROUND_PATH.c_str())}
         , mBackgroundOffset{0, 0}
         , mUfos{}
-        , mSpawnTimer{0} {
-    spawnUFOs(3);
-}
+        , mSpawnTimer{0} {}
 
 PlayScene::~PlayScene() {
     UnloadTexture(mPlayer.getTexture());
@@ -27,20 +25,29 @@ void PlayScene::update() {
     mPlayer.update();
 
     for (auto& ufo : mUfos) {
-        ufo.update(mPlayer.getPosition());
+        ufo.update(mPlayer.getPosition(), mPlayer.getVelocity());
         if (GetRandomValue(0, 100) < 2) {
             ufo.shoot(mPlayer.getPosition());
         }
     }
 
-    mBackgroundOffset.x += mPlayer.getVelocity().x * 0.5f;
-    mBackgroundOffset.y += mPlayer.getVelocity().y * 0.5f;
+    mBackgroundOffset.x += mPlayer.getVelocity().x * 0.8f;
+    mBackgroundOffset.y += mPlayer.getVelocity().y * 0.8f;
 
     // Wrap background offset
     if (mBackgroundOffset.x > mBackgroundTexture.width) mBackgroundOffset.x = 0;
     if (mBackgroundOffset.x < -mBackgroundTexture.width) mBackgroundOffset.x = mBackgroundTexture.width;
     if (mBackgroundOffset.y > mBackgroundTexture.height) mBackgroundOffset.y = 0;
     if (mBackgroundOffset.y < -mBackgroundTexture.height) mBackgroundOffset.y = mBackgroundTexture.height;
+
+    // Update each UFO and their relative movement to the player
+    for (auto& ufo : mUfos) {
+        ufo.update(mPlayer.getPosition(), mPlayer.getVelocity());
+        // Randomly make UFOs shoot at the player
+        if (GetRandomValue(0, 100) < 2) {
+            ufo.shoot(mPlayer.getPosition());
+        }
+    }
 
     // Collision detection between lasers and UFOs
     for (auto& laser : mPlayer.getLasers()) {
