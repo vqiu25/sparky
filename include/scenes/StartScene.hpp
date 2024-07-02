@@ -6,10 +6,10 @@ class SceneManager;
 
 class StartScene : public Scene {
 public:
-    explicit StartScene(SceneManager* gameManager);
+    explicit StartScene(SceneManager* sceneManager);
     void update() override;
     void draw() override;
 
 private:
-    SceneManager* gameManager;
+
 };

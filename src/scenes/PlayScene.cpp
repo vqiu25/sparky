@@ -1,14 +1,14 @@
 #include "scenes/PlayScene.hpp"
 #include "SceneManager.hpp"
 
-PlayScene::PlayScene(SceneManager* gameManager)
-    : gameManager(gameManager)
+PlayScene::PlayScene(SceneManager* sceneManager)
+    : Scene(sceneManager)
     , framesCounter(0) {}
 
 void PlayScene::update() {
     framesCounter++;
     if (framesCounter > 300) { // Example condition to end the game
-        gameManager->SetScreenState(END);
+        mSceneManager->SetScreenState(END);
     }
 }
 

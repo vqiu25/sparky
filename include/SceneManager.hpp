@@ -20,7 +20,7 @@ public:
 
     void SetScreenState(ScreenState state);
 
-//private:
+private:
     void update();
     void draw();
 
@@ -28,4 +28,5 @@ public:
     StartScene* mStartScene;
     PlayScene* mPlayScene;
     EndScene* mEndScene;
+
 };

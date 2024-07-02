@@ -1,12 +1,12 @@
 #include "scenes/StartScene.hpp"
 #include "SceneManager.hpp"
 
-StartScene::StartScene(SceneManager* gameManager)
-    : gameManager(gameManager) {}
+StartScene::StartScene(SceneManager* sceneManager)
+    : Scene{sceneManager} {}
 
 void StartScene::update() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        gameManager->SetScreenState(PLAY);
+        mSceneManager->SetScreenState(PLAY);
     }
 }
 

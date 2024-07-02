@@ -1,11 +1,12 @@
 #include "scenes/EndScene.hpp"
 #include "SceneManager.hpp"
 
-EndScene::EndScene(SceneManager* gameManager) : gameManager(gameManager) {}
+EndScene::EndScene(SceneManager* sceneManager)
+    : Scene(sceneManager) {}
 
 void EndScene::update() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        gameManager->SetScreenState(START);
+        mSceneManager->SetScreenState(START);
     }
 }
 
