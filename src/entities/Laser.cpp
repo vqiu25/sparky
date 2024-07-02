@@ -1,10 +1,10 @@
 #include "entities/Laser.hpp"
 #include "Constants.hpp"
 
-Laser::Laser(Vector2 position, Vector2 velocity, bool active, Texture2D texture)
+Laser::Laser(Vector2 position, Vector2 velocity, Texture2D texture)
     : mPosition{position}
     , mVelocity{velocity}
-    , mActive{active}
+    , mActive{true}
     , mTexture(texture) {}
 
 void Laser::update() {
@@ -17,4 +17,8 @@ void Laser::update() {
 
 void Laser::draw() {
     DrawTexture(this->mTexture, this->mPosition.x, this->mPosition.y, WHITE);
+}
+
+bool Laser::isActive() const {
+    return mActive;
 }

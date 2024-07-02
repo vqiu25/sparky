@@ -10,8 +10,9 @@ private:
     Texture2D mTexture;
 
 public:
-    Laser(Vector2 position, Vector2 velocity, bool active, Texture2D texture);
+    Laser(Vector2 position, Vector2 velocity, Texture2D texture);
 
     void update();
     void draw();
+    bool isActive() const;
 };
