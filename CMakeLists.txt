@@ -14,11 +14,10 @@ include_directories(include)
 # Source Files
 add_executable(sparky
         src/main.cpp
-        src/Game.cpp
-        src/scenes/Screen.cpp
-        src/scenes/StartScreen.cpp
-        src/scenes/PlayScreen.cpp
-        src/scenes/EndScreen.cpp)
+        src/SceneManager.cpp
+        src/scenes/StartScene.cpp
+        src/scenes/PlayScene.cpp
+        src/scenes/EndScene.cpp)
 
 # Link with raylib
 target_link_libraries(sparky raylib)
