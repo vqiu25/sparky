@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "Constants.hpp"
 
 class SceneManager;
 
@@ -10,7 +11,7 @@ protected:
 
 public:
     explicit Scene(SceneManager* sceneManager) : mSceneManager(sceneManager) {}
-    virtual ~Scene() {}
+    virtual ~Scene() = default;
     virtual void update() = 0;
     virtual void draw() = 0;
 };

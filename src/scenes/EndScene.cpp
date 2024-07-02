@@ -11,6 +11,5 @@ void EndScene::update() {
 }
 
 void EndScene::draw() {
-    DrawText("End Screen", 350, 280, 20, DARKGRAY);
-    DrawText("Click to Restart", 350, 310, 20, DARKGRAY);
+    DrawText("[Press Anywhere to Restart]", (Constants::SCREEN_WIDTH - MeasureText("[Press Anywhere to Restart]", 25)) / 2, 250, 25, DARKGRAY);
 }

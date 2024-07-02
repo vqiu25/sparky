@@ -1,6 +1,5 @@
 #include "scenes/StartScene.hpp"
 #include "SceneManager.hpp"
-#include "Constants.hpp"
 
 StartScene::StartScene(SceneManager* sceneManager)
     : Scene{sceneManager}
