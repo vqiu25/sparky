@@ -49,6 +49,16 @@ void PlayScene::update() {
         }
     }
 
+    // Collision detection between player and UFO lasers
+    for (auto& ufo : mUfos) {
+        for (auto& laser : ufo.getLasers()) {
+            if (CheckCollisionCircles(laser.getPosition(), 3, mPlayer.getPosition(), mPlayer.getTexture().width / 2)) {
+                mPlayer.takeDamage(10);  // Assume each hit takes 10 health points
+                laser.setActive(false);  // Deactivate the laser after hitting
+            }
+        }
+    }
+
     // Collision detection between lasers and UFOs
     for (auto& laser : mPlayer.getLasers()) {
         for (auto& ufo : mUfos) {

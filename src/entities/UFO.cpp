@@ -84,3 +84,8 @@ Texture2D UFO::getTexture() const {
 Texture2D UFO::getLaserTexture() const {
     return this->mLaserTexture;
 }
+
+std::vector<Laser> UFO::getLasers() const {
+    return this->mLasers;
+}
+
