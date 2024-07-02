@@ -85,14 +85,44 @@ void PlayScene::draw() {
 
 void PlayScene::spawnUFOs(int count) {
     Texture2D ufoTexture = LoadTexture(Constants::UFO_RED_PATH.c_str());
+
     for (int i = 0; i < count; ++i) {
-        Vector2 randomPos = {(float)GetRandomValue(0, Constants::SCREEN_WIDTH), (float)GetRandomValue(0, Constants::SCREEN_HEIGHT)};
-        while (CheckCollisionCircles(randomPos, ufoTexture.width / 2, mPlayer.getPosition(), mPlayer.getTexture().width / 2)) {
-            randomPos = {(float)GetRandomValue(0, Constants::SCREEN_WIDTH), (float)GetRandomValue(0, Constants::SCREEN_HEIGHT)};
+        Vector2 randomPos;
+
+        int side = GetRandomValue(0, 3); // Randomly choose a side (0: top, 1: bottom, 2: left, 3: right)
+
+        switch (side) {
+            case 0: // Top
+                randomPos = {
+                        static_cast<float>(GetRandomValue(0, Constants::SCREEN_WIDTH)),
+                        -static_cast<float>(ufoTexture.height) // Spawn just above the top edge
+                };
+                break;
+            case 1: // Bottom
+                randomPos = {
+                        static_cast<float>(GetRandomValue(0, Constants::SCREEN_WIDTH)),
+                        static_cast<float>(Constants::SCREEN_HEIGHT) // Spawn just below the bottom edge
+                };
+                break;
+            case 2: // Left
+                randomPos = {
+                        -static_cast<float>(ufoTexture.width), // Spawn just to the left of the left edge
+                        static_cast<float>(GetRandomValue(0, Constants::SCREEN_HEIGHT))
+                };
+                break;
+            case 3: // Right
+                randomPos = {
+                        static_cast<float>(Constants::SCREEN_WIDTH), // Spawn just to the right of the right edge
+                        static_cast<float>(GetRandomValue(0, Constants::SCREEN_HEIGHT))
+                };
+                break;
         }
-        this->mUfos.push_back(randomPos);
+
+        // Add new UFO to the list, assuming UFO constructor takes position and texture
+        this->mUfos.push_back(UFO{randomPos});
     }
 }
+
 
 void PlayScene::spawnUFO() {
     spawnUFOs(1);
