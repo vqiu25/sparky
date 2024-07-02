@@ -6,13 +6,19 @@ Laser::Laser(Vector2 position, Vector2 velocity, Texture2D texture)
     , mVelocity{velocity}
     , mActive{true}
     , mTexture(texture)
-    , mRotation{atan2f(mVelocity.y, mVelocity.x) * RAD2DEG - 90.0f} {}
+    , mRotation{atan2f(mVelocity.y, mVelocity.x) * RAD2DEG - 90.0f}
+    , mOrigin{position}
+    , mMaxRange{50.0f}
+    , mDistanceTraveled{0} {}
 
 void Laser::update() {
-    this->mPosition.x += this->mVelocity.x * 5.0f;
-    this->mPosition.y += this->mVelocity.y * 5.0f;
-    if (this->mPosition.x < 0 || this->mPosition.x > Constants::SCREEN_WIDTH || this->mPosition.y < 0 || this->mPosition.y > Constants::SCREEN_HEIGHT) {
-        this->mActive = false;
+    if (this->mActive) {
+        this->mPosition.x += this->mVelocity.x * 5.0f;
+        this->mPosition.y += this->mVelocity.y * 5.0f;
+        this->mDistanceTraveled += hypot(this->mVelocity.x, this->mVelocity.y);
+        if (this->mDistanceTraveled > this->mMaxRange) {
+            this->mActive = false;
+        }
     }
 }
 

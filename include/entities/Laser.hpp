@@ -9,6 +9,9 @@ private:
     bool mActive;
     Texture2D mTexture;
     float mRotation;
+    Vector2 mOrigin;
+    float mMaxRange;
+    float mDistanceTraveled;
 
 public:
     Laser(Vector2 position, Vector2 velocity, Texture2D texture);
