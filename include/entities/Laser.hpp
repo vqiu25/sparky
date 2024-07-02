@@ -16,4 +16,6 @@ public:
     void update();
     void draw();
     bool isActive() const;
+    Vector2 getPosition() const;
+    void setActive(bool statement);
 };

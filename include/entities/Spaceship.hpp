@@ -29,4 +29,5 @@ public:
     Vector2 getVelocity() const;
     Texture2D getTexture() const;
     Texture2D getLaserTexture() const;
+    std::vector<Laser> getLasers() const;
 };

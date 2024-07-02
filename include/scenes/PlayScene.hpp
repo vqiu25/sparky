@@ -2,6 +2,7 @@
 
 #include "Scene.hpp"
 #include "entities/Spaceship.hpp"
+#include "entities/UFO.hpp"
 
 class SceneManager;
 
@@ -12,9 +13,13 @@ public:
 
     void update() override;
     void draw() override;
+    void spawnUFO();
+    void spawnUFOs(int count);
 
 private:
     Spaceship mPlayer;
     Texture2D mBackgroundTexture;
     Vector2 mBackgroundOffset;
+    std::vector<UFO> mUfos;
+    int mSpawnTimer;
 };

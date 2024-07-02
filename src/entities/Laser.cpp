@@ -22,6 +22,15 @@ void Laser::draw() {
                    {(float)this->mTexture.width / 2, (float)this->mTexture.height / 2}, this->mRotation, WHITE);
 }
 
+
 bool Laser::isActive() const {
-    return mActive;
+    return this->mActive;
+}
+
+Vector2 Laser::getPosition() const {
+    return this->mPosition;
+}
+
+void Laser::setActive(bool statement) {
+    this->mActive = statement;
 }

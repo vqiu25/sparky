@@ -42,7 +42,7 @@ void Spaceship::draw() {
 void Spaceship::shoot() {
     Vector2 direction = {cosf((this->mRotation - 90.0f) * DEG2RAD), sinf((this->mRotation - 90.0f) * DEG2RAD)};
     Vector2 laserPos = {mPosition.x + direction.x * (mTexture.width / 2), mPosition.y + direction.y * (mTexture.height / 2)};
-    mLasers.push_back(Laser(laserPos, direction, mLaserTexture));
+    this->mLasers.push_back(Laser{laserPos, direction, mLaserTexture});
 }
 
 void Spaceship::rotateToMouse(Vector2 mousePosition) {
@@ -54,21 +54,21 @@ void Spaceship::move() {
     Vector2 direction = {0, 0};
 
     if (IsKeyDown(KEY_W)) {
-        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * 2.0f;
-        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * 2.0f;
+        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * 4.0f;
+        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * 4.0f;
     }
     if (IsKeyDown(KEY_S)) {
-        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * -2.0f;
-        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * -2.0f;
+        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * -4.0f;
+        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * -4.0f;
     }
 
-    if (IsKeyDown(KEY_A)) {
-        direction.x += cosf((this->mRotation + 180.0f) * DEG2RAD) * 2.0f;
-        direction.y += sinf((this->mRotation + 180.0f) * DEG2RAD) * 2.0f;
-    }
     if (IsKeyDown(KEY_D)) {
-        direction.x += cosf(this->mRotation * DEG2RAD) * 2.0f;
-        direction.y += sinf(this->mRotation * DEG2RAD) * 2.0f;
+        direction.x += cosf((this->mRotation + 180.0f) * DEG2RAD) * 4.0f;
+        direction.y += sinf((this->mRotation + 180.0f) * DEG2RAD) * 4.0f;
+    }
+    if (IsKeyDown(KEY_A)) {
+        direction.x += cosf(this->mRotation * DEG2RAD) * 4.0f;
+        direction.y += sinf(this->mRotation * DEG2RAD) * 4.0f;
     }
 
     this->mVelocity = direction;
@@ -97,4 +97,8 @@ Texture2D Spaceship::getTexture() const {
 
 Texture2D Spaceship::getLaserTexture() const {
     return this->mLaserTexture;
+}
+
+std::vector<Laser> Spaceship::getLasers() const {
+    return this->mLasers;
 }
