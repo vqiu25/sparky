@@ -27,7 +27,7 @@ void PlayScene::update() {
     mPlayer.update();
 
     for (auto& ufo : mUfos) {
-        ufo.update();
+        ufo.update(mPlayer.getPosition());
         if (GetRandomValue(0, 100) < 2) {
             ufo.shoot(mPlayer.getPosition());
         }

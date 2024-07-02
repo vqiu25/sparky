@@ -7,10 +7,25 @@ UFO::UFO(Vector2 pos)
         , mRotation{0}
         , mHealth{50}
         , mTexture{LoadTexture(Constants::UFO_RED_PATH.c_str())}
-        , mLaserTexture{LoadTexture(Constants::LASER_RED_PATH.c_str())} {}
+        , mLaserTexture{LoadTexture(Constants::LASER_RED_PATH.c_str())}
+        , mSpeed{1.0f} {}
 
 
-void UFO::update() {
+void UFO::update(Vector2 playerPosition) {
+    // Calculate direction towards the player
+    Vector2 direction = {playerPosition.x - this->mPosition.x, playerPosition.y - this->mPosition.y};
+    float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
+    direction = {direction.x / length, direction.y / length};
+
+    // Update velocity based on direction
+    this->mVelocity = {direction.x * this->mSpeed, direction.y * this->mSpeed};
+
+    // Update position based on velocity
+    this->mPosition.x += this->mVelocity.x;
+    this->mPosition.y += this->mVelocity.y;
+
+    // Update rotation based on direction
+    this->mRotation = atan2f(direction.y, direction.x) * RAD2DEG;
     for (auto& laser : this->mLasers) {
         laser.update();
     }

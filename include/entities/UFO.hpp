@@ -13,10 +13,11 @@ private:
     Texture2D mTexture;
     Texture2D mLaserTexture;
     std::vector<Laser> mLasers;
+    float mSpeed;
 
 public:
     UFO(Vector2 pos);
-    void update();
+    void update(Vector2 playerPosition);
     void draw();
     void shoot(Vector2 playerPosition);
 
