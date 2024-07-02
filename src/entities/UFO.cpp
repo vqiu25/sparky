@@ -5,7 +5,7 @@ UFO::UFO(Vector2 pos)
         : mPosition{pos}
         , mVelocity{0, 0}
         , mRotation{0}
-        , mHealth{50}
+        , mHealth{30}
         , mTexture{LoadTexture(Constants::UFO_RED_PATH.c_str())}
         , mLaserTexture{LoadTexture(Constants::LASER_RED_PATH.c_str())}
         , mSpeed{5.0f}
@@ -60,14 +60,21 @@ void UFO::shoot(Vector2 playerPosition) {
     float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
     direction = {direction.x / length, direction.y / length};
 
-    // Reduce the speed multiplier for the laser
-    float laserSpeed = 0.3f;  // Lower this value to slow down the laser
+    // Introduce more significant inaccuracy
+    float inaccuracy = 0.6f; // Increase the inaccuracy
+    direction.x += GetRandomValue(-100, 100) / 100.0f * inaccuracy;
+    direction.y += GetRandomValue(-100, 100) / 100.0f * inaccuracy;
+
+    // Normalize direction again after adding inaccuracy
+    length = sqrtf(direction.x * direction.x + direction.y * direction.y);
+    direction = {direction.x / length, direction.y / length};
+
+    float laserSpeed = 0.3f; // Adjust speed as needed
     Vector2 laserVelocity = {direction.x * laserSpeed, direction.y * laserSpeed};
 
     Vector2 laserPos = {this->mPosition.x + direction.x * (this->mTexture.width / 2), this->mPosition.y + direction.y * (this->mTexture.height / 2)};
     this->mLasers.push_back(Laser{laserPos, laserVelocity, this->mLaserTexture});
 }
-
 
 Vector2 UFO::getPosition() const {
     return this->mPosition;

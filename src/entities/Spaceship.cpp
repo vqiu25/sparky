@@ -5,7 +5,7 @@ Spaceship::Spaceship()
         : mPosition{Constants::SCREEN_WIDTH / 2, Constants::SCREEN_HEIGHT / 2}
         , mVelocity{0, 0}
         , mRotation{0}
-        , mHealth{100}
+        , mHealth{500}
         , mTexture{LoadTexture(Constants::SPACESHIP_PATH.c_str())}
         , mLaserTexture{LoadTexture(Constants::LASER_PATH.c_str())} {}
 

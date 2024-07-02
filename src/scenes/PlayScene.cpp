@@ -24,13 +24,6 @@ PlayScene::~PlayScene() {
 void PlayScene::update() {
     mPlayer.update();
 
-    for (auto& ufo : mUfos) {
-        ufo.update(mPlayer.getPosition(), mPlayer.getVelocity());
-        if (GetRandomValue(0, 100) < 2) {
-            ufo.shoot(mPlayer.getPosition());
-        }
-    }
-
     mBackgroundOffset.x += mPlayer.getVelocity().x * 0.8f;
     mBackgroundOffset.y += mPlayer.getVelocity().y * 0.8f;
 
