@@ -11,5 +11,5 @@ public:
     void draw() override;
 
 private:
-    Texture2D titleTexture;
+    Texture2D mTitleTexture;
 };

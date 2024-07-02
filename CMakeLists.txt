@@ -17,7 +17,10 @@ add_executable(sparky
         src/SceneManager.cpp
         src/scenes/StartScene.cpp
         src/scenes/PlayScene.cpp
-        src/scenes/EndScene.cpp)
+        src/scenes/EndScene.cpp
+        src/entities/Spaceship.cpp
+        src/entities/UFO.cpp
+        src/entities/Laser.cpp)
 # Assets
 set(ASSET_PATH "${CMAKE_SOURCE_DIR}/assets")
 add_definitions(-DASSET_PATH="${ASSET_PATH}/")
