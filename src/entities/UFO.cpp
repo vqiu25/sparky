@@ -61,7 +61,7 @@ void UFO::shoot(Vector2 playerPosition) {
     direction = {direction.x / length, direction.y / length};
 
     // Introduce more significant inaccuracy
-    float inaccuracy = 0.6f; // Increase the inaccuracy
+    float inaccuracy = 0.3f; // Increase the inaccuracy
     direction.x += GetRandomValue(-100, 100) / 100.0f * inaccuracy;
     direction.y += GetRandomValue(-100, 100) / 100.0f * inaccuracy;
 

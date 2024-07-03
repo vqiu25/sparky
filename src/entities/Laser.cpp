@@ -22,13 +22,11 @@ void Laser::update() {
     }
 }
 
-
 void Laser::draw() {
     DrawTexturePro(this->mTexture, {0, 0, (float)this->mTexture.width, (float)this->mTexture.height},
                    {this->mPosition.x, this->mPosition.y, (float)this->mTexture.width, (float)this->mTexture.height},
                    {(float)this->mTexture.width / 2, (float)this->mTexture.height / 2}, this->mRotation, WHITE);
 }
-
 
 bool Laser::isActive() const {
     return this->mActive;

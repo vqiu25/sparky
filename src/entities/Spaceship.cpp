@@ -5,7 +5,7 @@ Spaceship::Spaceship()
         : mPosition{Constants::SCREEN_WIDTH / 2, Constants::SCREEN_HEIGHT / 2}
         , mVelocity{0, 0}
         , mRotation{0}
-        , mHealth{500}
+        , mHealth{200}
         , mTexture{LoadTexture(Constants::SPACESHIP_PATH.c_str())}
         , mLaserTexture{LoadTexture(Constants::LASER_PATH.c_str())} {}
 
@@ -53,22 +53,17 @@ void Spaceship::rotateToMouse(Vector2 mousePosition) {
 void Spaceship::move() {
     Vector2 direction = {0, 0};
 
-    if (IsKeyDown(KEY_W)) {
-        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * 12.0f;
-        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * 12.0f;
-    }
     if (IsKeyDown(KEY_S)) {
-        direction.x += cosf((this->mRotation + 90.0f) * DEG2RAD) * -12.0f;
-        direction.y += sinf((this->mRotation + 90.0f) * DEG2RAD) * -12.0f;
+        direction.y -= 12.0f; // Moves up
     }
-
+    if (IsKeyDown(KEY_W)) {
+        direction.y += 12.0f; // Moves down
+    }
     if (IsKeyDown(KEY_D)) {
-        direction.x += cosf((this->mRotation + 180.0f) * DEG2RAD) * 12.0f;
-        direction.y += sinf((this->mRotation + 180.0f) * DEG2RAD) * 12.0f;
+        direction.x -= 12.0f; // Moves left
     }
     if (IsKeyDown(KEY_A)) {
-        direction.x += cosf(this->mRotation * DEG2RAD) * 12.0f;
-        direction.y += sinf(this->mRotation * DEG2RAD) * 12.0f;
+        direction.x += 12.0f; // Moves right
     }
 
     this->mVelocity = direction;
