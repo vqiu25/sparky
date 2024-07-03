@@ -15,7 +15,6 @@ public:
     void draw() override;
     void spawnUFO();
     void spawnUFOs(int count);
-    void cleanupLasers();
 
 private:
     Spaceship mPlayer;
@@ -23,4 +22,5 @@ private:
     Vector2 mBackgroundOffset;
     std::vector<UFO> mUfos;
     int mSpawnTimer;
+    float mElapsedTime;
 };

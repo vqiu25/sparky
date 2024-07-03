@@ -1,6 +1,8 @@
 #include "scenes/PlayScene.hpp"
 #include "SceneManager.hpp"
 #include "Constants.hpp"
+#include <sstream>
+#include <iomanip>
 
 PlayScene::PlayScene(SceneManager* sceneManager)
         : Scene(sceneManager)
@@ -8,7 +10,8 @@ PlayScene::PlayScene(SceneManager* sceneManager)
         , mBackgroundTexture{LoadTexture(Constants::BACKGROUND_PATH.c_str())}
         , mBackgroundOffset{0, 0}
         , mUfos{}
-        , mSpawnTimer{0} {}
+        , mSpawnTimer{0}
+        , mElapsedTime{0.0f} {}
 
 PlayScene::~PlayScene() {
     UnloadTexture(mPlayer.getTexture());
@@ -88,6 +91,10 @@ void PlayScene::update() {
         mSpawnTimer = 0;
     }
 
+    // Time elapsed
+    float deltaTime = GetFrameTime();
+    this->mElapsedTime += deltaTime;
+
     // Player loses
     if (mPlayer.getHealth() <= 0) {
         this->mSceneManager->SetScreenState(END);
@@ -105,6 +112,17 @@ void PlayScene::draw() {
     for (auto& ufo : mUfos) {
         ufo.draw();
     }
+
+    // Draw the clock on the top left
+    int minutes = static_cast<int>(mElapsedTime) / 60;
+    int seconds = static_cast<int>(mElapsedTime) % 60;
+
+    std::stringstream timeStream;
+    timeStream << std::setw(2) << std::setfill('0') << minutes << ":"
+               << std::setw(2) << std::setfill('0') << seconds;
+    std::string timeText = timeStream.str();
+
+    DrawText(timeText.c_str(), 20, 20, 40, WHITE);
 }
 
 void PlayScene::spawnUFOs(int count) {
@@ -113,7 +131,8 @@ void PlayScene::spawnUFOs(int count) {
     for (int i = 0; i < count; ++i) {
         Vector2 randomPos;
 
-        int side = GetRandomValue(0, 3); // Randomly choose a side (0: top, 1: bottom, 2: left, 3: right)
+        // Randomly choose a side (0: top, 1: bottom, 2: left, 3: right)
+        int side = GetRandomValue(0, 3);
 
         switch (side) {
             case 0: // Top
@@ -144,7 +163,7 @@ void PlayScene::spawnUFOs(int count) {
                 break;
         }
 
-        // Add new UFO to the list, assuming UFO constructor takes position and texture
+        // Add new UFO to the list
         this->mUfos.emplace_back(randomPos);
     }
 }
