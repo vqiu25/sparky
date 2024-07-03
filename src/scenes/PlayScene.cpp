@@ -22,16 +22,17 @@ PlayScene::~PlayScene() {
 }
 
 void PlayScene::update() {
+
     mPlayer.update();
 
     mBackgroundOffset.x += mPlayer.getVelocity().x * 0.8f;
     mBackgroundOffset.y += mPlayer.getVelocity().y * 0.8f;
 
     // Wrap background offset
-    if (mBackgroundOffset.x > mBackgroundTexture.width) mBackgroundOffset.x = 0;
-    if (mBackgroundOffset.x < -mBackgroundTexture.width) mBackgroundOffset.x = mBackgroundTexture.width;
-    if (mBackgroundOffset.y > mBackgroundTexture.height) mBackgroundOffset.y = 0;
-    if (mBackgroundOffset.y < -mBackgroundTexture.height) mBackgroundOffset.y = mBackgroundTexture.height;
+    if (mBackgroundOffset.x > (float) mBackgroundTexture.width) mBackgroundOffset.x = 0;
+    if (mBackgroundOffset.x < (float) -mBackgroundTexture.width) mBackgroundOffset.x = (float) mBackgroundTexture.width;
+    if (mBackgroundOffset.y > (float) mBackgroundTexture.height) mBackgroundOffset.y = 0;
+    if (mBackgroundOffset.y < (float) -mBackgroundTexture.height) mBackgroundOffset.y = (float) mBackgroundTexture.height;
 
     // Update each UFO and their relative movement to the player
     for (auto& ufo : mUfos) {
@@ -45,7 +46,7 @@ void PlayScene::update() {
     // Collision detection between player and UFO lasers
     for (auto& ufo : mUfos) {
         for (auto& laser : ufo.getLasers()) {
-            if (CheckCollisionCircles(laser.getPosition(), 3, mPlayer.getPosition(), mPlayer.getTexture().width / 2)) {
+            if (CheckCollisionCircles(laser.getPosition(), 3, mPlayer.getPosition(), (float) mPlayer.getTexture().width / 2)) {
                 mPlayer.takeDamage(10);  // Assume each hit takes 10 health points
                 laser.setActive(false);  // Deactivate the laser after hitting
             }
@@ -55,7 +56,7 @@ void PlayScene::update() {
     // Collision detection between lasers and UFOs
     for (auto& laser : mPlayer.getLasers()) {
         for (auto& ufo : mUfos) {
-            if (CheckCollisionCircles(laser.getPosition(), 3, ufo.getPosition(), ufo.getTexture().width / 2)) {
+            if (CheckCollisionCircles(laser.getPosition(), 3, ufo.getPosition(), (float) ufo.getTexture().width / 2)) {
                 ufo.takeDamage(10);
                 laser.setActive(false);
             }
@@ -65,34 +66,38 @@ void PlayScene::update() {
     // Remove inactive lasers from the spaceship
     std::vector<Laser>& playerLasers = mPlayer.getLasers(); // Assuming getLasers() returns a reference
     playerLasers.erase(std::remove_if(playerLasers.begin(), playerLasers.end(), [](const Laser& laser) {
-        return !laser.isActive(); // Remove the laser if it is not active
+        return !laser.isActive();
     }), playerLasers.end());
 
     // Update each UFO and remove inactive lasers within each UFO
     for (auto& ufo : mUfos) {
         ufo.update(mPlayer.getPosition(), mPlayer.getVelocity());
-        // Remove inactive lasers from the UFO
-        std::vector<Laser>& lasers = ufo.getLasers(); // Assuming getLasers() returns a reference
+        std::vector<Laser>& lasers = ufo.getLasers();
         lasers.erase(std::remove_if(lasers.begin(), lasers.end(), [](const Laser& laser) {
-            return !laser.isActive(); // Remove the laser if it is not active
+            return !laser.isActive();
         }), lasers.end());
     }
 
     // Remove dead UFOs
     mUfos.erase(std::remove_if(mUfos.begin(), mUfos.end(), [](UFO& u) { return u.getHealth() <= 0; }), mUfos.end());
 
-    // Spawn new UFOs over time
+    // Spawn new UFOs every 350 frames
     mSpawnTimer++;
-    if (mSpawnTimer > 600) {  // Every 600 frames (10 seconds at 60 FPS)
+    if (mSpawnTimer > 350) {
         spawnUFO();
         mSpawnTimer = 0;
+    }
+
+    // Player loses
+    if (mPlayer.getHealth() <= 0) {
+        this->mSceneManager->SetScreenState(END);
     }
 }
 
 void PlayScene::draw() {
     for (int x = -1; x <= Constants::SCREEN_WIDTH / mBackgroundTexture.width; ++x) {
         for (int y = -1; y <= Constants::SCREEN_HEIGHT / mBackgroundTexture.height; ++y) {
-            DrawTexture(mBackgroundTexture, mBackgroundOffset.x + x * mBackgroundTexture.width, mBackgroundOffset.y + y * mBackgroundTexture.height, WHITE);
+            DrawTexture(mBackgroundTexture, (int) mBackgroundOffset.x + x * mBackgroundTexture.width, (int) mBackgroundOffset.y + y * mBackgroundTexture.height, WHITE);
         }
     }
     mPlayer.draw();
@@ -135,13 +140,14 @@ void PlayScene::spawnUFOs(int count) {
                         static_cast<float>(GetRandomValue(0, Constants::SCREEN_HEIGHT))
                 };
                 break;
+            default:
+                break;
         }
 
         // Add new UFO to the list, assuming UFO constructor takes position and texture
-        this->mUfos.push_back(UFO{randomPos});
+        this->mUfos.emplace_back(randomPos);
     }
 }
-
 
 void PlayScene::spawnUFO() {
     spawnUFOs(1);

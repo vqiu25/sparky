@@ -2,7 +2,7 @@
 #include "Constants.hpp"
 
 Spaceship::Spaceship()
-        : mPosition{Constants::SCREEN_WIDTH / 2, Constants::SCREEN_HEIGHT / 2}
+        : mPosition{(float) Constants::SCREEN_WIDTH / 2, (float) Constants::SCREEN_HEIGHT / 2}
         , mVelocity{0, 0}
         , mRotation{0}
         , mHealth{200}
@@ -35,14 +35,14 @@ void Spaceship::draw() {
     }
 
     // Draw health bar
-    DrawRectangle(this->mPosition.x - 40, this->mPosition.y + 60, 80, 10, WHITE);
-    DrawRectangle(this->mPosition.x - 40, this->mPosition.y + 60, this->mHealth * 0.8, 10, RED);
+    DrawRectangleRounded((Rectangle){(float)(this->mPosition.x - 40), (float)(this->mPosition.y + 60), 80, 10}, 1.0f, 10, WHITE);
+    DrawRectangleRounded((Rectangle){(float)(this->mPosition.x - 40), (float)(this->mPosition.y + 60), (float)(this->mHealth * 0.4), 10}, 1.0f, 10, RED);
 }
 
 void Spaceship::shoot() {
     Vector2 direction = {cosf((this->mRotation - 90.0f) * DEG2RAD), sinf((this->mRotation - 90.0f) * DEG2RAD)};
-    Vector2 laserPos = {mPosition.x + direction.x * (mTexture.width / 2), mPosition.y + direction.y * (mTexture.height / 2)};
-    this->mLasers.push_back(Laser{laserPos, direction, mLaserTexture});
+    Vector2 laserPos = {mPosition.x + direction.x * ((float) mTexture.width / 2), mPosition.y + direction.y * ((float) mTexture.height / 2)};
+    this->mLasers.emplace_back(laserPos, direction, mLaserTexture);
 }
 
 void Spaceship::rotateToMouse(Vector2 mousePosition) {

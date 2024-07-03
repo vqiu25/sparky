@@ -16,10 +16,8 @@ void UFO::update(Vector2 playerPosition, Vector2 playerVelocity) {
     Vector2 direction = {playerPosition.x - this->mPosition.x, playerPosition.y - this->mPosition.y};
     float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
 
-    // Decrease speed as it nears the player to give the player a chance to escape
+    // Ensure UFOs are at a fixed distance from the player
     float speedDamping = (length < mMinDistance) ? 0.5f : 1.0f;
-
-    // Correcting the relative velocity to pursue the player correctly
     Vector2 relativeVelocity = {playerVelocity.x * 0.5f, playerVelocity.y * 0.5f};
 
     if (length > mMinDistance) {
@@ -51,8 +49,10 @@ void UFO::draw() {
     }
 
     // Draw health bar
-    DrawRectangle(this->mPosition.x - 40, this->mPosition.y + 30, 80, 10, DARKGRAY);
-    DrawRectangle(this->mPosition.x - 40, this->mPosition.y + 30, this->mHealth * 0.8, 10, RED);
+    DrawRectangleRounded((Rectangle){(float)(this->mPosition.x - 40), (float)(this->mPosition.y + 60), 80, 10}, 1.0f, 10, WHITE);
+    DrawRectangleRounded((Rectangle){(float)(this->mPosition.x - 40), (float)(this->mPosition.y + 60), (float)(this->mHealth * (80.0 / 30.0)), 10}, 1.0f, 10, RED);
+
+
 }
 
 void UFO::shoot(Vector2 playerPosition) {
@@ -62,18 +62,18 @@ void UFO::shoot(Vector2 playerPosition) {
 
     // Introduce more significant inaccuracy
     float inaccuracy = 0.3f; // Increase the inaccuracy
-    direction.x += GetRandomValue(-100, 100) / 100.0f * inaccuracy;
-    direction.y += GetRandomValue(-100, 100) / 100.0f * inaccuracy;
+    direction.x += (float) GetRandomValue(-100, 100) / 100.0f * inaccuracy;
+    direction.y += (float) GetRandomValue(-100, 100) / 100.0f * inaccuracy;
 
-    // Normalize direction again after adding inaccuracy
+    // Normalise direction again after adding inaccuracy
     length = sqrtf(direction.x * direction.x + direction.y * direction.y);
     direction = {direction.x / length, direction.y / length};
 
-    float laserSpeed = 0.3f; // Adjust speed as needed
+    float laserSpeed = 0.3f;
     Vector2 laserVelocity = {direction.x * laserSpeed, direction.y * laserSpeed};
 
-    Vector2 laserPos = {this->mPosition.x + direction.x * (this->mTexture.width / 2), this->mPosition.y + direction.y * (this->mTexture.height / 2)};
-    this->mLasers.push_back(Laser{laserPos, laserVelocity, this->mLaserTexture});
+    Vector2 laserPos = {this->mPosition.x + direction.x * ((float) this->mTexture.width / 2), this->mPosition.y + direction.y * ((float) this->mTexture.height / 2)};
+    this->mLasers.emplace_back(laserPos, laserVelocity, this->mLaserTexture);
 }
 
 Vector2 UFO::getPosition() const {
